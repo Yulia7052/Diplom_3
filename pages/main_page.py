@@ -50,7 +50,25 @@ class MainPage(BasePage):
     def click_make_order_button(self):
         return self.click_button(self.MAKE_ORDER_BUTTON)
 
-    @allure.step('Получаем первый ингридиент')
-    def get_first_ingridient(self):
+    @allure.step('Получаем первый ингредиент')
+    def get_first_ingredient(self):
         self.wait_until_element_visible(self.INGRIDIENT_CONTAINER)
         return self.find_element(self.INGRIDIENT_CONTAINER)
+
+    @allure.step('Получаем верхний элемент конструктора')
+    def get_constructor_top_element(self):
+        self.wait_until_element_visible(self.CONSTRUCTOR_ELEMENT_TOP)
+        return self.find_element(self.CONSTRUCTOR_ELEMENT_TOP)
+
+    @allure.step('Получаем каунтер первого ингредиента')
+    def get_first_ingredient_counter(self):
+        self.wait_until_element_visible(self.INGRIDIENT_COUNTER)
+        return self.find_element(self.INGRIDIENT_COUNTER)
+
+    @allure.step('Проверяем, что открылось модальное окно ингредиентов')
+    def check_ingredient_modal_section_exists(self):
+        return self.check_element_exists(self.MODAL_SECTION)
+
+    @allure.step('Проверяем наличие кнопки "Оформить заказ" на странице')
+    def check_order_button_exists(self):
+        return self.check_element_exists(self.MAKE_ORDER_BUTTON)

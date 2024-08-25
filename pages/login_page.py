@@ -4,7 +4,6 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    URL = 'https://stellarburgers.nomoreparties.site/login'
     RECOVERY_PASSWORD_BUTTON = [By.XPATH, '//a[@href="/forgot-password"]']
     PASSWORD_VISIBLE_BUTTON = [By.CLASS_NAME, 'input__icon-action']
     LOGIN_ENTER_BUTTON = [By.XPATH, '//button[contains(text(), "Войти")]']

@@ -2,7 +2,7 @@ import allure
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.forgot_password_page import ForgotPasswordPage
-from pages.reset_password_page import ResetPasswordPage
+import test_data
 
 
 class TestRecoveryPassword:
@@ -15,25 +15,24 @@ class TestRecoveryPassword:
         main_page.to_main_page()
         main_page.click_button_login_account()
         login_page.click_recovery_password_button()
-        forgot_password_page.wait_until_url_change(login_page.URL)
+        forgot_password_page.wait_until_url_change(test_data.login_url)
 
-        assert forgot_password_page.URL == forgot_password_page.get_current_page()
+        assert test_data.forgot_password_url == forgot_password_page.get_current_page()
 
     @allure.title('Проверяем ввод почты в поле Email и клик по кнопке "Восстановить"')
     def test_get_text_email_field(self, driver):
         login_page = LoginPage(driver)
         main_page = MainPage(driver)
         forgot_password_page = ForgotPasswordPage(driver)
-        reset_password_page = ResetPasswordPage(driver)
 
         main_page.to_main_page()
         main_page.click_button_login_account()
         login_page.click_recovery_password_button()
-        forgot_password_page.set_email('ulia346@mail.ru')
+        forgot_password_page.set_email(test_data.recovery_email)
         forgot_password_page.click_recovery_button()
-        reset_password_page.wait_until_url_change(forgot_password_page.URL)
+        forgot_password_page.wait_until_url_change(test_data.forgot_password_url)
 
-        assert reset_password_page.URL == reset_password_page.get_current_page()
+        assert test_data.reset_password_url == forgot_password_page.get_current_page()
 
     @allure.title('Проверяем, что клик по кнопке "Показать пароль" подсвечивает поле')
     def test_click_show_password_button(self, driver):
@@ -46,5 +45,5 @@ class TestRecoveryPassword:
         label_class = login_page.get_password_label_class()
         input_type = login_page.get_password_input_type()
 
-        assert input_type == 'text'
-        assert label_class == 'input__placeholder text noselect text_type_main-default input__placeholder-focused'
+        assert input_type == test_data.password_input_visible_type
+        assert label_class == test_data.password_label_visible_class

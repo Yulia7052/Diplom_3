@@ -1,11 +1,9 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-import time
 import allure
 
 
 class OrderFeedPage(BasePage):
-    URL = 'https://stellarburgers.nomoreparties.site/feed'
     CONSTRUCTOR_BUTTON = [By.XPATH, '//a[@href="/"]']
     ORDER_CONTAINER = [By.XPATH, '//a[contains(@href, "/feed/")]']
     MODAL_SECTION = [By.XPATH, '//section[contains(@class, "Modal_modal_opened")]']
@@ -40,9 +38,7 @@ class OrderFeedPage(BasePage):
         return numbers[1].text
 
     @allure.step('Получение заказов в работе')
-    def get_orders_in_progress(self):     
-        time.sleep(5)
-        self.wait_until_element_visible(self.ORDERS_IN_PROGRESS)
+    def get_orders_in_progress(self, order_id):     
+        self.wait_until_text_in_element(self.ORDERS_IN_PROGRESS, order_id)
         orders = self.find_elements(self.ORDERS_IN_PROGRESS)
         return list(map(lambda element: element.text, orders))
-

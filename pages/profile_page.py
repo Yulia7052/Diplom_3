@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 
 
 class ProfilePage(BasePage):
-    URL = 'https://stellarburgers.nomoreparties.site/account/profile'
     HISTORY_ORDERS_BUTTON = [By.XPATH, '//a[@href="/account/order-history"]']
     ACCOUNT_LOGOUT_BUTTON = [By.XPATH, '//button[contains(text(), "Выход")]']
     HISTORY_ORDER_ID = [By.XPATH, '//div[contains(@class, "OrderHistory_textBox")]/p[1]']

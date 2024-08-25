@@ -1,9 +1,9 @@
 import allure
 
-from pages.base_page import BasePage
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.order_feed_page import OrderFeedPage
+import test_data
 
 
 class TestBaseFunctional:
@@ -16,11 +16,11 @@ class TestBaseFunctional:
         main_page.to_main_page()
         main_page.full_screen()
         main_page.click_order_feed_button()
-        order_feed.wait_until_url_change(main_page.URL)
+        order_feed.wait_until_url_change(test_data.main_url)
         order_feed.click_constructor_button()
-        main_page.wait_until_url_change(order_feed.URL)
+        main_page.wait_until_url_change(test_data.feed_url)
 
-        assert main_page.URL == main_page.get_current_page()
+        assert test_data.main_url == main_page.get_current_page()
 
     @allure.title('Проверяем переход по клику "Лента Заказов"')
     def test_go_to_click_order_feed(self, driver):
@@ -31,7 +31,7 @@ class TestBaseFunctional:
         main_page.full_screen()
         main_page.click_order_feed_button()
 
-        assert order_feed.URL == order_feed.get_current_page()
+        assert test_data.feed_url == order_feed.get_current_page()
 
     @allure.title('Проверяем появление всплывающего окна с деталями при нажатии на ингредиент')
     def test_details_ingredient(self, driver):
@@ -39,9 +39,9 @@ class TestBaseFunctional:
 
         main_page.to_main_page()
         main_page.click_ingredient_bun()
-        main_page.wait_until_url_change(main_page.URL)
+        main_page.wait_until_url_change(test_data.main_url)
 
-        assert True == main_page.check_element_exists(main_page.MODAL_SECTION)
+        assert main_page.check_ingredient_modal_section_exists()
 
     @allure.title('Проверяем закрытие всплывающего окна с описанием ингредиента')
     def test_click_button_ingredient_modal_open(self, driver):
@@ -51,33 +51,32 @@ class TestBaseFunctional:
         main_page.click_ingredient_bun()
         main_page.click_modal_close_button()
 
-        assert False == main_page.check_element_exists(main_page.MODAL_SECTION)
+        assert False == main_page.check_ingredient_modal_section_exists()
 
     @allure.title('Проверяем увеличение каунтера ингредиента при его добавлении в заказ')
     def test_increase_counter_ingredient(self, driver):
         main_page = MainPage(driver)
 
         main_page.to_main_page()
-        ingredient = main_page.get_first_ingridient()
-        constructor_top = main_page.find_element(main_page.CONSTRUCTOR_ELEMENT_TOP)
+        ingredient = main_page.get_first_ingredient()
+        constructor_top = main_page.get_constructor_top_element()
         main_page.drag_and_drop(ingredient, constructor_top)
         
-        counter = main_page.find_element(main_page.INGRIDIENT_COUNTER).text
+        counter = main_page.get_first_ingredient_counter().text
 
         assert 0 < int(counter)
 
     @allure.title('Проверка, что залогиненный пользователь может оформить заказ')
     def test_make_order(self, driver):
-        base_page = BasePage(driver)
         main_page = MainPage(driver)
         login_page = LoginPage(driver)
 
         main_page.to_main_page()
         main_page.click_button_login_account()
-        login_page.wait_until_url_change(base_page.URL)
-        login_page.login_user('ulia_manaenkova_10_088@google.com')
-        login_page.password_user('123456')
+        login_page.wait_until_url_change(test_data.main_url)
+        login_page.login_user(test_data.login)
+        login_page.password_user(test_data.password)
         login_page.click_login_enter_button()
-        main_page.wait_until_url_change(login_page.URL)
+        main_page.wait_until_url_change(test_data.login_url)
 
-        assert True == main_page.check_element_exists(main_page.MAKE_ORDER_BUTTON)
+        assert main_page.check_order_button_exists()

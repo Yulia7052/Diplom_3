@@ -4,7 +4,6 @@ from pages.base_page import BasePage
 
 
 class ForgotPasswordPage(BasePage):
-    URL = 'https://stellarburgers.nomoreparties.site/forgot-password'
     EMAIL_FIELD = [By.NAME, 'name']
     RECOVERY_BUTTON = [By.XPATH, '//button[contains(text(), "Восстановить")]']
 
